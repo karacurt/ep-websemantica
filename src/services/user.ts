@@ -50,7 +50,7 @@ export async function getUser(id: string) {
 export async function getAllUsers() {
   const query = encodeURIComponent(` 
   PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-  SELECT ?user  WHERE { ?user a foaf:person . }`)
+  SELECT ?data  WHERE { ?data a foaf:person . }`)
 
   const usersData: any = []
 

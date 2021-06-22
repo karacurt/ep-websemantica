@@ -7,12 +7,10 @@ const api = axios.create({ baseURL: 'http://localhost:7200' })
 const BD_NAME = 'rdfforreal'
 
 export async function create(data: {}, dataProperties: {}, prefixes: Prefix[]) {
-
-  const dataParsed = rdf.parse(data) 
+  const dataParsed = rdf.parse(data)
 
   const dataPropertiesParsed = rdf.parse(dataProperties)
-  
- 
+
   const dataGraph = dataParsed.graphify()
   const dataPropertiesGraph = dataPropertiesParsed.graphify()
 
@@ -28,7 +26,6 @@ export async function create(data: {}, dataProperties: {}, prefixes: Prefix[]) {
 }
 
 export async function getSubjectInfo(query: string) {
-
   const response = await api.get(`/repositories/${BD_NAME}?query=${query}`)
 
   const bindings = response.data.results.bindings
@@ -46,19 +43,17 @@ export async function getSubjectInfo(query: string) {
   return data
 }
 export async function getSubjectId(query: string) {
-
   const response = await api.get(`/repositories/${BD_NAME}?query=${query}`)
 
   const bindings = response.data.results.bindings
   if (!bindings.length) return null
 
-  
-  const ids: any=[]
+  const ids: any = []
 
-  bindings.forEach(async (result: any) => {   
-    const id = result.user.value.split('/').pop()
+  bindings.forEach(async (result: any) => {
+    const id = result.data.value.split('/').pop()
     ids.push(id)
   })
- 
+
   return ids
 }
