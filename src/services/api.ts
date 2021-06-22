@@ -10,7 +10,8 @@ export async function create(turtle: string) {
 }
 
 export async function get(query: string) {
-  const response = await api.get(`/repositories/${BD_NAME}/?query=${query}`)
+
+  const response = await api.get(`/repositories/${BD_NAME}?query=${query}`)
   console.log(response)
   return response
 }

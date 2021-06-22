@@ -51,18 +51,11 @@ export const UsersData: React.FC = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [rows, setRows] = useState([] as User[])
   useEffect(() => {
-    console.log('rodando o get users uma vez')
     getUsers()
   }, [])
 
   useEffect(() => {
-    console.log('+++++++++atualizou o users++++++')
-    console.log(users)
-    console.log('+++++++++rows before++++++')
-    console.log(rows)
-    setRows(users)
-    console.log('+++++++++rows after++++++')
-    console.log(rows)
+    setRows(users) 
   }, [users, rows])
 
   const dataRows = () => {}
