@@ -27,9 +27,38 @@ export async function create(data: {}, dataProperties: {}, prefixes: Prefix[]) {
   return response
 }
 
-export async function get(query: string) {
+export async function getSubjectInfo(query: string) {
 
   const response = await api.get(`/repositories/${BD_NAME}?query=${query}`)
-  console.log(response)
-  return response
+
+  const bindings = response.data.results.bindings
+
+  if (!bindings.length) return null
+
+  let data: any = {}
+
+  bindings.forEach((bind: any) => {
+    const fieldName: any = bind.predicate.value.split('#').pop()
+    const value = bind.object.value
+    data[fieldName] = value
+  })
+
+  return data
+}
+export async function getSubjectId(query: string) {
+
+  const response = await api.get(`/repositories/${BD_NAME}?query=${query}`)
+
+  const bindings = response.data.results.bindings
+  if (!bindings.length) return null
+
+  
+  const ids: any=[]
+
+  bindings.forEach(async (result: any) => {   
+    const id = result.user.value.split('/').pop()
+    ids.push(id)
+  })
+ 
+  return ids
 }
