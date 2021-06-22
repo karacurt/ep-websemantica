@@ -12,16 +12,16 @@ const userIRI = rdf.ns('http://epwebsemantica.com/user/')
 
 export async function createUser(user: User) {
 
-  const data = rdf.parse({
+  const data = {
     '@context': {
       '@vocab': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
       rdf: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'
     },
     '@id': userIRI(user.name),
     type: foaf('person')
-  }) 
+  }
 
-  const dataProperties = rdf.parse({
+  const dataProperties = {
     '@context': {
       '@vocab': 'http://epwebsemantica.com/user#',
       'user-info': 'http://epwebsemantica.com/user#'
@@ -30,21 +30,15 @@ export async function createUser(user: User) {
     name: rdfjs.literal(user.name, rdf.xsdns('string')),
     email: rdfjs.literal(user.email, rdf.xsdns('string')),
     password: rdfjs.literal(user.password, rdf.xsdns('string'))
-  })
-
-  const dataGraph = data.graphify()
-  const dataPropertiesGraph = dataProperties.graphify()
+  }
 
   const prefixes: Prefix[] = [
     { id: 'user-info', iri: 'http://epwebsemantica.com/user#' },
     { id: 'user', iri: 'http://epwebsemantica.com/user/' },
     { id: 'foaf', iri: 'http://xmlns.com/foaf/0.1/' }
   ]
-  const graphs = [dataGraph, dataPropertiesGraph]
-
-  const turtle = graphToTurtle(graphs, prefixes)
-
-  create(turtle.join('\n'))
+  
+  create(data, dataProperties, prefixes)
 }
 
 export async function getUser(id: string) {
