@@ -2,11 +2,10 @@
 import axios from 'axios'
 import rdf from 'rdf'
 import { Prefix, User } from '../types'
-import { create } from './api'
+import { create, get } from './api'
 import { graphToTurtle } from './rdf'
 
 const rdfjs = rdf.factory
-const api = axios.create({ baseURL: 'http://localhost:7200' })
 const foaf = rdf.ns('http://xmlns.com/foaf/0.1/')
 const userIRI = rdf.ns('http://epwebsemantica.com/user/')
 
@@ -67,7 +66,7 @@ export async function getUserData(userName: string) {
       ep:${userName} ?predicate ?object .
   }`)
 
-  const response = await api.get(`/repositories/rdfforreal?query=${query}`)
+ const response = await get(query)
   console.log('users data-->')
   console.log(response.data.results.bindings)
   const bindings = response.data.results.bindings
@@ -98,7 +97,8 @@ export async function getAllUsers() {
    } 
     `)
 
-  const response = await api.get(`/repositories/rdfforreal?query=${query}`)
+  const response = await get(query)
+
     console.log(response)
 
   const bindings = response.data.results.bindings
