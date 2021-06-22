@@ -59,6 +59,7 @@ export const SignUp: React.FC = () => {
     e.preventDefault()
 
     const user: User = {
+      id: 'a',
       name,
       email,
       password
@@ -76,15 +77,12 @@ export const SignUp: React.FC = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component='h1' variant='h5'>
-          Sign up
+          Novo usuário
         </Typography>
         <form className={classes.form} onSubmit={(e) => onSubmit(e)} noValidate>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField autoComplete='fname' name='firstName' variant='outlined' required fullWidth id='firstName' label='First Name' autoFocus onChange={(e) => setName(e.target.value)} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField variant='outlined' required fullWidth id='lastName' label='Last Name' name='lastName' autoComplete='lname' />
             </Grid>
             <Grid item xs={12}>
               <TextField variant='outlined' required fullWidth id='email' label='Email Address' name='email' autoComplete='email' onChange={(e) => setEmail(e.target.value)} />

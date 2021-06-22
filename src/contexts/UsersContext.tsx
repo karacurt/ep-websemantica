@@ -12,14 +12,10 @@ interface UserContextProps {
 export const UsersContext = createContext<UserContextProps>({} as UserContextProps)
 
 export const UsersProvider: React.FC = ({ children }) => {
-  const [users, setUsers] = useState([])
-
-
+  const [users, setUsers] = useState([] as User[])
 
   const getUsers = async () => {
-
     const allUsers = await getAllUsers()
-   
     setUsers(allUsers)
   }
 
