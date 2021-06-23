@@ -5,14 +5,39 @@ import { graphToTurtle } from './rdf'
 const api = axios.create({ baseURL: 'http://localhost:7200' })
 const BD_NAME = 'rdfforreal'
 const PREFIX = 'http://epwebsemantica.com/'
+const ep = rdf.ns(`${PREFIX}`)
+const rdfjs = rdf.factory
+export async function create(subject: string, properties: any) {
+  console.log('properties')
+  console.log(properties)
 
-export async function create(data: {}, dataProperties: {}) {
-  const dataParsed = rdf.parse(data)
+  const data = rdf.parse({
+    '@context': {
+      '@vocab': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+      rdf: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+    },
+    '@id': ep(`${subject}/${properties.id}`),
+    type: ep(`${subject}`)
+  })
 
-  const dataPropertiesParsed = rdf.parse(dataProperties)
+  console.log(data)
+  let dataProperties: any = {
+    '@context': {
+      '@vocab': `http://epwebsemantica.com/${subject}#`,
+      'user-info': `http://epwebsemantica.com/${subject}#`
+    },
+    '@id': ep(`${subject}/${properties.id}`)
+  }
 
-  const dataGraph = dataParsed.graphify()
-  const dataPropertiesGraph = dataPropertiesParsed.graphify()
+  Object.keys(properties).map((key) => {
+    console.log(key)
+    dataProperties[key] = rdfjs.literal(properties[key], rdf.xsdns('string'))
+  })
+
+  dataProperties = rdf.parse(dataProperties)
+
+  const dataGraph = data.graphify()
+  const dataPropertiesGraph = dataProperties.graphify()
 
   const graphs = [dataGraph, dataPropertiesGraph]
 
@@ -24,8 +49,6 @@ export async function create(data: {}, dataProperties: {}) {
 
   return response
 }
-
-async function getAllSubjectIds(query: string) {}
 
 export async function getById(subject: string, id: string) {
   const query = encodeURIComponent(`
