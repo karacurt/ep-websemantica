@@ -8,7 +8,6 @@ import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
-import { getAllUsers } from '../../services/user'
 import { UsersContext } from '../../contexts/UsersContext'
 import { User } from '../../types'
 
@@ -45,20 +44,15 @@ const useStyles = makeStyles({
 
 export const UsersData: React.FC = () => {
   const { users, getUsers } = useContext(UsersContext)
-
   const classes = useStyles()
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
   const [rows, setRows] = useState([] as User[])
+
   useEffect(() => {
     getUsers()
   }, [])
 
-  useEffect(() => {
-    setRows(users) 
-  }, [users, rows])
-
-  const dataRows = () => {}
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage)
   }
@@ -82,7 +76,7 @@ export const UsersData: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+            {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
               console.log('pegando row')
               console.log(row)
               return (
