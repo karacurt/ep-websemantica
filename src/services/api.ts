@@ -53,7 +53,7 @@ export async function create(subject: string, properties: any) {
 export async function getById(subject: string, id: string) {
   const query = encodeURIComponent(`
   PREFIX ep: <${PREFIX}${subject}/>  
-  SELECT ?predicate ?object WHERE { ep:${id} ?predicate ?object . }`)
+  SELECT ?predicate ?object WHERE { ep:${id} ?predicate ?object . } `)
 
   const response = await api.get(`/repositories/${BD_NAME}?query=${query}`)
 
@@ -74,7 +74,7 @@ export async function getById(subject: string, id: string) {
 export async function getAll(subject: string) {
   const query = encodeURIComponent(` 
   PREFIX ep: <${PREFIX}>
-  SELECT ?data WHERE { ?data a ep:${subject} . }`)
+  SELECT ?data WHERE { ?data a ep:${subject} . } order by asc(UCASE(str(?data)))`)
 
   const response = await api.get(`/repositories/${BD_NAME}?query=${query}`)
 
@@ -109,7 +109,7 @@ export async function getAllByFieldValue(subject: string, field: string, value: 
     ?subject a ep:${subject} .
     ?subject info:${field} ?x . 
     filter(str(?x)="${value}")
-} `)
+} order by asc(UCASE(str(?subject))) `)
 
   const response = await api.get(`/repositories/${BD_NAME}?query=${query}`)
 
