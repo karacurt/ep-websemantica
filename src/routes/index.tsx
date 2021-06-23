@@ -4,6 +4,8 @@ import { SignUp } from '../pages/signup/signup'
 import { Home } from '../pages/home'
 import { UsersData } from '../pages/users'
 import { ProductForm } from '../pages/products/newProduct'
+import { StoreForm } from '../pages/store/newStore'
+import { StoreData } from '../pages/store/table'
 import { ProductsData } from '../pages/products/table'
 
 export const Routes: React.FC = () => {
@@ -13,6 +15,8 @@ export const Routes: React.FC = () => {
         <Route exact path='/' component={Home} />
         <Route path='/new/user' component={SignUp} />
         <Route path='/new/product' component={ProductForm} />
+        <Route path='/new/store' component={StoreForm} />
+        <Route path='/stores' component={StoreData} />
         <Route path='/users' component={UsersData} />
         <Route path='/products' component={ProductsData} />
       </Switch>
