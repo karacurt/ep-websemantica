@@ -1,12 +1,15 @@
 import React from 'react'
 import './App.css'
+import { ApiProvider } from './contexts/ApiContext'
 import { UsersProvider } from './contexts/UsersContext'
 import { Routes } from './routes/index'
 
 export const App: React.FC = () => {
   return (
-    <UsersProvider>
-      <Routes />
-    </UsersProvider>
+    <ApiProvider>
+      <UsersProvider>
+        <Routes />
+      </UsersProvider>
+    </ApiProvider>
   )
 }
