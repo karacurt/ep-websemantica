@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react'
-import { getAllUsers } from '../services/user'
+import { getAll } from '../services/api'
 interface User {
   name: string
   email: string
@@ -15,7 +15,7 @@ export const UsersProvider: React.FC = ({ children }) => {
   const [users, setUsers] = useState([] as User[])
 
   const getUsers = async () => {
-    const allUsers = await getAllUsers()
+    const allUsers = await getAll('user')
     setUsers(allUsers)
   }
 

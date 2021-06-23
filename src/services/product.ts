@@ -1,7 +1,7 @@
 /// <reference path='../types/rdf.d.ts' />
 import rdf from 'rdf'
-import { Prefix, Product } from '../types'
-import { create, getSubjectId, getSubjectInfo } from './api'
+import { Product } from '../types'
+import { create } from './api'
 
 const CLASS_PREFIX = 'http://epwebsemantica.com/product'
 const rdfjs = rdf.factory
@@ -29,39 +29,5 @@ export async function createProduct(product: Product) {
     category: rdfjs.literal(product.category, rdf.xsdns('string'))
   }
 
-  const prefixes: Prefix[] = [
-    { id: 'product-info', iri: `${CLASS_PREFIX}#` },
-    { id: 'product', iri: `${CLASS_PREFIX}/` }
-  ]
-
-  create(data, dataProperties, prefixes)
-}
-
-export async function getProduct(id: string) {
-  const query = encodeURIComponent(`
-  PREFIX ep: <${CLASS_PREFIX}/>  
-  SELECT ?predicate ?object WHERE { ep:${id} ?predicate ?object . }`)
-
-  const userInfo = await getSubjectInfo(query)
-
-  return userInfo
-}
-
-export async function getAllProducts() {
-  const query = encodeURIComponent(` 
-  PREFIX ep: <${CLASS_PREFIX}>
-  SELECT ?data WHERE { ?data a ep:product . }`)
-
-  const usersData: any = []
-
-  const ids = await getSubjectId(query)
-
-  ids.forEach(async (id: string) => {
-    const userData = await getProduct(id)
-    if (!userData) return
-
-    usersData.push(userData)
-  })
-
-  return usersData
+  create(data, dataProperties)
 }
