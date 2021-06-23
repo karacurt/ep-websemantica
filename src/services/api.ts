@@ -1,10 +1,10 @@
 /// <reference path='../types/rdf.d.ts' />
 import rdf from 'rdf'
 import axios from 'axios'
-import { graphToTurtle } from './rdf'
-const api = axios.create({ baseURL: 'http://localhost:7200' })
-const BD_NAME = 'rdfforreal'
-const PREFIX = 'http://epwebsemantica.com/'
+import { graphToTurtle, parseRdfToJson } from './rdf'
+export const api = axios.create({ baseURL: 'http://localhost:7200' })
+export const BD_NAME = 'rdfforreal'
+export const PREFIX = 'http://epwebsemantica.com/'
 const ep = rdf.ns(`${PREFIX}`)
 const rdfjs = rdf.factory
 export async function create(subject: string, properties: any) {
@@ -31,7 +31,7 @@ export async function create(subject: string, properties: any) {
 
   Object.keys(properties).map((key) => {
     console.log(key)
-    dataProperties[key] = rdfjs.literal(JSON.stringify(properties[key]), rdf.xsdns('string'))
+    dataProperties[key] = rdfjs.literal(properties[key], rdf.xsdns('string'))
   })
 
   dataProperties = rdf.parse(dataProperties)
@@ -62,8 +62,7 @@ export async function getById(subject: string, id: string) {
   if (!bindings.length) return null
 
   let data: any = {}
-
-  bindings.forEach((bind: any) => {
+  bindings.forEach((bind: any, index: number) => {
     const fieldName: any = bind.predicate.value.split('#').pop()
     const value = bind.object.value
     data[fieldName] = value
@@ -77,7 +76,6 @@ export async function getAll(subject: string) {
   PREFIX ep: <${PREFIX}>
   SELECT ?data WHERE { ?data a ep:${subject} . }`)
 
-  const allData: any = []
   const response = await api.get(`/repositories/${BD_NAME}?query=${query}`)
 
   const bindings = response.data.results.bindings
@@ -92,6 +90,42 @@ export async function getAll(subject: string) {
   })
 
   console.log(ids)
+  const allData: any = []
+  ids.forEach(async (id: string) => {
+    const data = await getById(subject, id)
+    if (!data) return
+
+    allData.push(data)
+  })
+
+  return allData
+}
+export async function getAllByFieldValue(subject: string, field: string, value: string) {
+  const query = encodeURIComponent(` 
+    PREFIX ep: <${PREFIX}>
+	  PREFIX info: <${PREFIX}${subject}#>
+
+  SELECT  ?subject WHERE { 
+    ?subject a ep:${subject} .
+    ?subject info:${field} ?x . 
+    filter(str(?x)="${value}")
+} `)
+
+  const response = await api.get(`/repositories/${BD_NAME}?query=${query}`)
+
+  const bindings = response.data.results.bindings
+
+  const ids: any = []
+
+  if (!bindings.length) return ids
+
+  bindings.forEach(async (result: any) => {
+    const id = result.subject.value.split('/').pop()
+    ids.push(id)
+  })
+
+  console.log(ids)
+  const allData: any = []
   ids.forEach(async (id: string) => {
     const data = await getById(subject, id)
     if (!data) return

@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react'
-import { getAll } from '../services/api'
+import { getAll, getAllByFieldValue } from '../services/api'
 
 interface User {
   name: string
@@ -10,6 +10,7 @@ interface UserContextProps {
   loading: boolean
   data: any[]
   getAllDataFrom: (subject: string) => void
+  searchByFieldValue: (subject: string, field: string, value: string) => void
 }
 export const ApiContext = createContext<UserContextProps>({} as UserContextProps)
 
@@ -25,5 +26,12 @@ export const ApiProvider: React.FC = ({ children }) => {
     setLoading(false)
   }
 
-  return <ApiContext.Provider value={{ data, getAllDataFrom, loading }}>{children}</ApiContext.Provider>
+  const searchByFieldValue = async (subject: string, field: string, value: string) => {
+    const data = await getAllByFieldValue(subject, field, value)
+    console.log('resultado do serachbyfield')
+    console.log(data)
+    setData(data)
+  }
+
+  return <ApiContext.Provider value={{ data, getAllDataFrom, searchByFieldValue, loading }}>{children}</ApiContext.Provider>
 }
