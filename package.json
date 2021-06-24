@@ -11,6 +11,7 @@
     "axios": "^0.21.1",
     "cra-template-typescript": "1.1.2",
     "graphy": "^4.3.3",
+    "material-ui-search-bar": "^1.0.0",
     "mdbreact": "^5.0.2",
     "rdf": "^4.1.0",
     "rdfjs": "^0.0.1",
