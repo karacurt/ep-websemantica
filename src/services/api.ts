@@ -31,7 +31,7 @@ export async function create(subject: string, properties: any) {
 
   Object.keys(properties).map((key) => {
     console.log(key)
-    dataProperties[key] = properties[key].includes(PREFIX) ? properties[key] : rdfjs.literal(properties[key], rdf.xsdns('string'))
+    dataProperties[key] = properties[key].includes('http://') ? properties[key] : rdfjs.literal(properties[key], rdf.xsdns('string'))
   })
 
   dataProperties = rdf.parse(dataProperties)
