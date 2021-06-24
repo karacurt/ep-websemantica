@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import { ControlPointSharp } from '@material-ui/icons'
-import { create } from '../services/api'
+import { create } from '../../services/api'
 
 function Copyright() {
   return (

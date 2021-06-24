@@ -8,8 +8,6 @@ import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
-import { getAll } from '../services/api'
-import { ApiContext } from '../contexts/ApiContext'
 
 interface Column {
   id: string
@@ -36,7 +34,7 @@ export const DataTable: React.FC<Props> = ({ subject, data }) => {
   const classes = useStyles()
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
-  const [rows, setRows] = useState(data)
+
   const columns: Column[] = data.length
     ? Object.keys(data[0]).map((key) => {
         const column = { id: key, label: key, minWidth: 170 }
@@ -88,7 +86,7 @@ export const DataTable: React.FC<Props> = ({ subject, data }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination rowsPerPageOptions={[10, 25, 100]} component='div' count={rows.length} rowsPerPage={rowsPerPage} page={page} onChangePage={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage} />
+      <TablePagination rowsPerPageOptions={[10, 25, 100]} component='div' count={data.length} rowsPerPage={rowsPerPage} page={page} onChangePage={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage} />
     </Paper>
   )
 }
