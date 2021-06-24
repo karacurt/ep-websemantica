@@ -9,6 +9,8 @@ interface User {
 interface UserContextProps {
   loading: boolean
   data: any[]
+  cart: any[]
+  addProductToCart: (id: string) => void
   getAllDataFrom: (subject: string) => void
   searchByFieldValue: (subject: string, field: string, value: string) => void
 }
@@ -17,6 +19,14 @@ export const ApiContext = createContext<UserContextProps>({} as UserContextProps
 export const ApiProvider: React.FC = ({ children }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
+  const cart: any[] = []
+
+  const addProductToCart = (id: string) => {
+    if (cart.includes(id)) return
+    cart.push(id)
+    console.log('carrinho -->')
+    console.log(cart)
+  }
 
   const getAllDataFrom = async (subject: string) => {
     setLoading(true)
@@ -33,5 +43,5 @@ export const ApiProvider: React.FC = ({ children }) => {
     setData(data)
   }
 
-  return <ApiContext.Provider value={{ data, getAllDataFrom, searchByFieldValue, loading }}>{children}</ApiContext.Provider>
+  return <ApiContext.Provider value={{ data, getAllDataFrom, searchByFieldValue, addProductToCart, cart, loading }}>{children}</ApiContext.Provider>
 }

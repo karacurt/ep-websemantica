@@ -1,7 +1,7 @@
 /// <reference path='../types/rdf.d.ts' />
 import rdf from 'rdf'
 import axios from 'axios'
-import { graphToTurtle, parseRdfToJson } from './rdf'
+import { graphToTurtle } from './rdf'
 export const api = axios.create({ baseURL: 'http://localhost:7200' })
 export const BD_NAME = 'rdfforreal'
 export const PREFIX = 'http://epwebsemantica.com/'
@@ -62,8 +62,10 @@ export async function getById(subject: string, id: string) {
   if (!bindings.length) return null
 
   let data: any = {}
+  data['id'] = id
   bindings.forEach((bind: any, index: number) => {
     const fieldName: any = bind.predicate.value.split('#').pop()
+    if (fieldName === 'type') return
     const value = bind.object.value
     data[fieldName] = value
   })

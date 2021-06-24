@@ -22,22 +22,3 @@ export function graphToTurtle(graphs: any[]) {
 
   return turtle
 }
-export function parseRdfToJson(response: any) {
-  const bindings = response.data.results.bindings
-
-  if (!bindings.length) return null
-
-  const allData: any = []
-
-  bindings.forEach((bind: any, index: number) => {
-    let data: any = {}
-    const fieldName: any = bind.predicate.value.split('#').pop()
-    const value = bind.object.value
-    data[fieldName] = value
-    if (index === bind.length) {
-      allData.push(data)
-    }
-  })
-
-  return allData
-}
