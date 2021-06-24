@@ -15,7 +15,7 @@ import Container from '@material-ui/core/Container'
 import { createSecureServer } from 'node:http2'
 import { createUser } from '../../services/user'
 import { User } from '../../types'
-
+import { v4 as uuidv4 } from 'uuid'
 function Copyright() {
   return (
     <Typography variant='body2' color='textSecondary' align='center'>
@@ -59,7 +59,7 @@ export const SignUp: React.FC = () => {
     e.preventDefault()
 
     const user: User = {
-      id: 'a',
+      id: uuidv4(),
       name,
       email,
       password

@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import { ControlPointSharp } from '@material-ui/icons'
 import { create } from '../../services/api'
+import { v4 as uuidv4 } from 'uuid'
 
 function Copyright() {
   return (
@@ -80,6 +81,10 @@ export const Form: React.FC<Props> = ({ subject, fields }) => {
         <form className={classes.form} onSubmit={(e) => onSubmit(e)} noValidate>
           <Grid container spacing={2}>
             {fields?.map((field) => {
+              if (field === 'id') {
+                const generatedId = uuidv4()
+                return <TextField name={field} variant='outlined' required fullWidth value={generatedId} id={field} label={field} autoFocus onChange={(e) => setFieldValue(field, e.target.value)} />
+              }
               return (
                 <Grid item xs={12}>
                   <TextField name={field} variant='outlined' required fullWidth id={field} label={field} autoFocus onChange={(e) => setFieldValue(field, e.target.value)} />
