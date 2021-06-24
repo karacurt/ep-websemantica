@@ -54,8 +54,9 @@ interface Props {
 }
 export const Form: React.FC<Props> = ({ subject, fields }) => {
   const classes = useStyles()
+  const generatedId = uuidv4()
 
-  let fieldsValue: any = {}
+  let fieldsValue: any = { id: generatedId }
 
   const setFieldValue = (field: string, value: any) => {
     fieldsValue[field] = value
@@ -82,7 +83,6 @@ export const Form: React.FC<Props> = ({ subject, fields }) => {
           <Grid container spacing={2}>
             {fields?.map((field) => {
               if (field === 'id') {
-                const generatedId = uuidv4()
                 return <TextField name={field} variant='outlined' required fullWidth value={generatedId} id={field} label={field} autoFocus onChange={(e) => setFieldValue(field, e.target.value)} />
               }
               return (

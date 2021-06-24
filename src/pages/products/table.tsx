@@ -20,7 +20,7 @@ import Switch from '@material-ui/core/Switch'
 import DeleteIcon from '@material-ui/icons/Delete'
 import FilterListIcon from '@material-ui/icons/FilterList'
 import { ApiContext } from '../../contexts/ApiContext'
-import { ShoppingCart } from '@material-ui/icons'
+import { Payment, ShoppingCart } from '@material-ui/icons'
 
 interface Data {
   calories: number
@@ -136,7 +136,7 @@ interface EnhancedTableToolbarProps {
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const classes = useToolbarStyles()
   const { numSelected, selected } = props
-  const { addProductToCart } = useContext(ApiContext)
+  const { addProductToCart, buyCart } = useContext(ApiContext)
 
   const addToCart = () => {
     console.log('chamado add to cart')
@@ -146,7 +146,9 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       addProductToCart(product)
     })
   }
-
+  const buyCartProducts = () => {
+    buyCart()
+  }
   return (
     <Toolbar
       className={clsx(classes.root, {
@@ -163,11 +165,18 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         </Typography>
       )}
       {numSelected > 0 ? (
-        <Tooltip title='Delete' onClick={() => addToCart()}>
-          <IconButton aria-label='delete'>
-            Adicionar no carrinho <ShoppingCart />
-          </IconButton>
-        </Tooltip>
+        <>
+          <Tooltip title='Delete' onClick={() => buyCartProducts()}>
+            <IconButton aria-label='delete'>
+              Comprar <Payment />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title='Delete' onClick={() => addToCart()}>
+            <IconButton aria-label='delete'>
+              Adicionar no carrinho <ShoppingCart />
+            </IconButton>
+          </Tooltip>
+        </>
       ) : (
         <Tooltip title='Filter list'>
           <IconButton aria-label='filter list'>
@@ -236,7 +245,7 @@ export const ProductsData: React.FC = () => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = data.map((n) => n.name)
+      const newSelecteds = data.map((n) => n.id)
       setSelected(newSelecteds)
       return
     }
