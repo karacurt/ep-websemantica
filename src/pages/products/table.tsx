@@ -21,6 +21,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import FilterListIcon from '@material-ui/icons/FilterList'
 import { ApiContext } from '../../contexts/ApiContext'
 import { Payment, ShoppingCart } from '@material-ui/icons'
+import { Link } from 'react-router-dom'
 
 interface Data {
   calories: number
@@ -136,8 +137,9 @@ interface EnhancedTableToolbarProps {
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const classes = useToolbarStyles()
   const { numSelected, selected } = props
-  const { addProductToCart, buyCart } = useContext(ApiContext)
-
+  const { addProductToCart, cart } = useContext(ApiContext)
+  console.log('cart')
+  console.log(cart)
   const addToCart = () => {
     console.log('chamado add to cart')
     console.log(selected)
@@ -146,9 +148,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       addProductToCart(product)
     })
   }
-  const buyCartProducts = () => {
-    buyCart()
-  }
+
   return (
     <Toolbar
       className={clsx(classes.root, {
@@ -165,18 +165,13 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         </Typography>
       )}
       {numSelected > 0 ? (
-        <>
-          <Tooltip title='Delete' onClick={() => buyCartProducts()}>
-            <IconButton aria-label='delete'>
-              Comprar <Payment />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title='Delete' onClick={() => addToCart()}>
+        <Tooltip title='Delete' onClick={() => addToCart()}>
+          <Link to='/cart'>
             <IconButton aria-label='delete'>
               Adicionar no carrinho <ShoppingCart />
             </IconButton>
-          </Tooltip>
-        </>
+          </Link>
+        </Tooltip>
       ) : (
         <Tooltip title='Filter list'>
           <IconButton aria-label='filter list'>
@@ -218,7 +213,7 @@ export const ProductsData: React.FC = () => {
   const classes = useStyles()
   const [order, setOrder] = React.useState<Order>('asc')
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories')
-  const [selected, setSelected] = React.useState<string[]>([])
+  const [selected, setSelected] = React.useState<any[]>([])
   const [page, setPage] = React.useState(0)
   const [dense, setDense] = React.useState(false)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
@@ -245,19 +240,21 @@ export const ProductsData: React.FC = () => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = data.map((n) => n.id)
+      const newSelecteds = data //data.map((n) => n.id)
       setSelected(newSelecteds)
       return
     }
     setSelected([])
   }
 
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-    const selectedIndex = selected.indexOf(name)
+  const handleClick = (event: React.MouseEvent<unknown>, product: string) => {
+    const selectedIndex = selected.indexOf(product)
     let newSelected: string[] = []
-
+    console.log('handling selected')
+    console.log(selected)
+    console.log(product)
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name)
+      newSelected = newSelected.concat(selected, product)
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1))
     } else if (selectedIndex === selected.length - 1) {
@@ -295,11 +292,11 @@ export const ProductsData: React.FC = () => {
             <EnhancedTableHead headCells={headCells} classes={classes} numSelected={selected.length} order={order} orderBy={orderBy} onSelectAllClick={handleSelectAllClick} onRequestSort={handleRequestSort} rowCount={rows.length} />
             <TableBody>
               {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                const isItemSelected = isSelected(row.id)
+                const isItemSelected = isSelected(row)
                 const labelId = `enhanced-table-checkbox-${index}`
 
                 return (
-                  <TableRow hover onClick={(event) => handleClick(event, row.id)} role='checkbox' aria-checked={isItemSelected} tabIndex={-1} key={row.id} selected={isItemSelected}>
+                  <TableRow hover onClick={(event) => handleClick(event, row)} role='checkbox' aria-checked={isItemSelected} tabIndex={-1} key={row.id} selected={isItemSelected}>
                     <TableCell padding='checkbox'>
                       <Checkbox checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
                     </TableCell>

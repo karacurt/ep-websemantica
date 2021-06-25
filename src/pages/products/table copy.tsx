@@ -7,5 +7,5 @@ export const ProductsData: React.FC = () => {
   useEffect(() => {
     getAllDataFrom('product')
   }, [])
-  return !data || <DataTable subject='product' data={data} />
+  return !data || <DataTable data={data} />
 }

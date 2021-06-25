@@ -1,10 +1,11 @@
-import React, { ReactNode, useContext, useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { SearchField } from '../../components/searchBar'
 import { DataTable } from '../../components/table'
 import { ApiContext } from '../../contexts/ApiContext'
 
 export const StoreData: React.FC = () => {
-  const { data, getAllDataFrom, searchByFieldValue } = useContext(ApiContext)
+  const { data, getAllDataFrom } = useContext(ApiContext)
+
   useEffect(() => {
     getAllDataFrom('store')
   }, [])
@@ -12,7 +13,7 @@ export const StoreData: React.FC = () => {
   return (
     <>
       <SearchField subject='store' field='name' />
-      <DataTable subject='store' data={data} />
+      <DataTable data={data} />
     </>
   )
 }

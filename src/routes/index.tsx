@@ -14,13 +14,13 @@ export const Routes: React.FC = () => {
     <BrowserRouter>
       <Switch>
         <Route exact path='/' component={Home} />
-        <Route path='/new/user' component={SignUp} />
-        <Route path='/new/product' component={ProductForm} />
-        <Route path='/new/store' component={StoreForm} />
-        <Route path='/stores' component={StoreData} />
-        <Route path='/users' component={UsersData} />
-        <Route path='/cart' component={ProductList} />
-        <Route path='/products' component={ProductsData} />
+        <Route exact path='/new/user' component={SignUp} />
+        <Route exact path='/new/product' component={ProductForm} />
+        <Route exact path='/new/store' component={StoreForm} />
+        <Route exact path='/stores' component={StoreData} />
+        <Route exact path='/users' component={UsersData} />
+        <Route exact path='/cart' component={ProductList} />
+        <Route exact path='/products' component={ProductsData} />
       </Switch>
     </BrowserRouter>
   )

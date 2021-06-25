@@ -28,28 +28,20 @@ const useStyles = makeStyles({
 })
 
 interface Props {
-  subject: string
   data: any[]
 }
-export const DataTable: React.FC<Props> = ({ subject, data: a }) => {
+export const DataTable: React.FC<Props> = ({ data }) => {
   const classes = useStyles()
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [rows, setRows] = useState([] as any[])
-  const { data } = useContext(ApiContext)
 
   useEffect(() => {
-    console.log('data mudou')
-    console.log(data)
-    if (data.length) {
-      setRows(data)
-    }
+    setRows(data)
   }, [data])
 
-  console.log('componente montou')
-  console.log(data)
-  const columns: Column[] = data.length
-    ? Object.keys(data[0]).map((key) => {
+  const columns: Column[] = rows.length
+    ? Object.keys(rows[0]).map((key) => {
         const column = { id: key, label: key, minWidth: 170 }
 
         return column
