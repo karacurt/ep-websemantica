@@ -11,18 +11,25 @@ interface UserContextProps {
   data: any[]
   cart: any[]
   buyCart: () => void
+  clearCart: () => void
   addProductToCart: (id: string) => void
   getAllDataFrom: (subject: string) => void
   searchByFieldValue: (subject: string, field: string, value: string) => void
 }
 export const ApiContext = createContext<UserContextProps>({} as UserContextProps)
 
-export const ApiProvider: React.FC = ({ children }) => {
+export const ApiProvider: React.FC = ({ children, ...rest }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
-  const cart: any[] = []
+  const [cart, setCart] = useState([] as any[])
+
+  const clearCart = () => {
+    setCart([])
+  }
 
   const buyCart = () => {
+    console.log('olha o cart buying')
+    console.log(cart)
     const cartId = uuidv4()
     cart.map((productId) => {
       create('cart', {
@@ -44,6 +51,7 @@ export const ApiProvider: React.FC = ({ children }) => {
     console.log(response)
     setData(response)
     setLoading(false)
+    return data
   }
 
   const searchByFieldValue = async (subject: string, field: string, value: string) => {
@@ -53,5 +61,5 @@ export const ApiProvider: React.FC = ({ children }) => {
     setData(data)
   }
 
-  return <ApiContext.Provider value={{ data, getAllDataFrom, searchByFieldValue, addProductToCart, buyCart, cart, loading }}>{children}</ApiContext.Provider>
+  return <ApiContext.Provider value={{ data, getAllDataFrom, searchByFieldValue, addProductToCart, buyCart, clearCart, cart, loading, ...rest }}>{children}</ApiContext.Provider>
 }
