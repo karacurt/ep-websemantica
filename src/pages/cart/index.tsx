@@ -32,7 +32,7 @@ const ProductCard: React.FC<ProductProps> = ({ product, handleRemoveItem }) => {
   )
 }
 
-export const ProductList: React.FC = () => {
+export const Cart: React.FC = () => {
   const { cart, buyCart, clearCart, removeItemFromCart } = useContext(ApiContext)
   let total = 0
   cart.forEach((product) => {

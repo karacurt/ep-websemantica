@@ -129,11 +129,9 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       )}
       {numSelected > 0 ? (
         <Tooltip title='Delete' onClick={() => addToCart()}>
-          <Link to='/cart'>
-            <IconButton aria-label='delete'>
-              Adicionar no carrinho <ShoppingCart />
-            </IconButton>
-          </Link>
+          <IconButton aria-label='delete'>
+            Adicionar no carrinho <ShoppingCart />
+          </IconButton>
         </Tooltip>
       ) : (
         <Tooltip title='Filter list'>
@@ -172,7 +170,10 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export const ProductsDataTable: React.FC = () => {
+interface Props {
+  data: any[]
+}
+export const ProductsDataTable: React.FC<Props> = ({ data }) => {
   const classes = useStyles()
   const [order, setOrder] = React.useState<Order>('asc')
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories')
@@ -181,16 +182,11 @@ export const ProductsDataTable: React.FC = () => {
   const [dense, setDense] = React.useState(false)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
 
-  const { data, getAllDataFrom } = useContext(ApiContext)
-  const [rows, setRows] = useState([] as any[])
+  const [rows, setRows] = useState(data)
 
   useEffect(() => {
     setRows(data)
   }, [data])
-
-  useEffect(() => {
-    getAllDataFrom('product')
-  }, [])
 
   const headCells: any[] = data.length
     ? Object.keys(data[0]).map((key) => {

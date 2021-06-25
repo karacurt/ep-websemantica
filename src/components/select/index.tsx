@@ -19,13 +19,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 interface SelectProps {
+  field: string
   fields: string[]
   handleChange: (event: React.ChangeEvent<{ value: unknown }>) => void
 }
-export const SelectBox: React.FC<SelectProps> = ({ fields, handleChange }) => {
+export const SelectBox: React.FC<SelectProps> = ({ field, fields, handleChange }) => {
   const classes = useStyles()
-
-  const [field, setField] = useState('')
 
   return (
     <FormControl className={classes.formControl}>
