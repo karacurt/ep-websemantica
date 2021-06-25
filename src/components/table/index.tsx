@@ -8,6 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
+import { ApiContext } from '../../contexts/ApiContext'
 
 interface Column {
   id: string
@@ -30,11 +31,23 @@ interface Props {
   subject: string
   data: any[]
 }
-export const DataTable: React.FC<Props> = ({ subject, data }) => {
+export const DataTable: React.FC<Props> = ({ subject, data: a }) => {
   const classes = useStyles()
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [rows, setRows] = useState([] as any[])
+  const { data } = useContext(ApiContext)
 
+  useEffect(() => {
+    console.log('data mudou')
+    console.log(data)
+    if (data.length) {
+      setRows(data)
+    }
+  }, [data])
+
+  console.log('componente montou')
+  console.log(data)
   const columns: Column[] = data.length
     ? Object.keys(data[0]).map((key) => {
         const column = { id: key, label: key, minWidth: 170 }
@@ -58,6 +71,7 @@ export const DataTable: React.FC<Props> = ({ subject, data }) => {
           <TableHead>
             <TableRow>
               {columns.map((column) => {
+                console.log('columns render')
                 return (
                   <TableCell key={column.id} align='center' style={{ minWidth: column.minWidth }}>
                     {column.label}
@@ -67,22 +81,20 @@ export const DataTable: React.FC<Props> = ({ subject, data }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data
-              ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                  return (
-                    <TableRow hover role='checkbox' tabIndex={-1} key={index}>
-                      {columns.map((column) => {
-                        const value = row[column.id]
-                        return (
-                          <TableCell key={column.id} align='center'>
-                            {value}
-                          </TableCell>
-                        )
-                      })}
-                    </TableRow>
-                  )
-                })
-              : null}
+            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+              return (
+                <TableRow hover role='checkbox' tabIndex={-1} key={index}>
+                  {columns.map((column) => {
+                    const value = row[column.id]
+                    return (
+                      <TableCell key={column.id} align='center'>
+                        {value}
+                      </TableCell>
+                    )
+                  })}
+                </TableRow>
+              )
+            })}
           </TableBody>
         </Table>
       </TableContainer>

@@ -7,6 +7,7 @@ import { ProductForm } from '../pages/products/newProduct'
 import { StoreForm } from '../pages/store/newStore'
 import { StoreData } from '../pages/store/table'
 import { ProductsData } from '../pages/products/table'
+import { ProductList } from '../pages/cart'
 
 export const Routes: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ export const Routes: React.FC = () => {
         <Route path='/new/store' component={StoreForm} />
         <Route path='/stores' component={StoreData} />
         <Route path='/users' component={UsersData} />
+        <Route path='/cart' component={ProductList} />
         <Route path='/products' component={ProductsData} />
       </Switch>
     </BrowserRouter>

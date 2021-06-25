@@ -4,7 +4,7 @@ import { ApiProvider } from './contexts/ApiContext'
 import { UsersProvider } from './contexts/UsersContext'
 import { Routes } from './routes/index'
 
-export const App: React.FC = () => {
+export default function App() {
   return (
     <ApiProvider>
       <UsersProvider>
