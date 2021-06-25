@@ -5,6 +5,7 @@ export interface User {
   password: string
 }
 export interface Product {
+  quantity: number
   id: string
   name: string
   price: string

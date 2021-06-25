@@ -6,7 +6,7 @@ import { UsersData } from '../pages/users'
 import { ProductForm } from '../pages/products/newProduct'
 import { StoreForm } from '../pages/store/newStore'
 import { StoreData } from '../pages/store/table'
-import { ProductsData } from '../pages/products/table'
+import { ProductsData } from '../pages/products'
 import { ProductList } from '../pages/cart'
 
 export const Routes: React.FC = () => {
