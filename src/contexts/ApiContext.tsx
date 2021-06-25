@@ -61,6 +61,9 @@ export const ApiProvider: React.FC = ({ children, ...rest }) => {
   }
 
   const searchByFieldValue = async (subject: string, field: string, value: string) => {
+    console.log('query de pesquisa -->')
+    console.log(value)
+    if (!value.length) getAllDataFrom(subject)
     const data = await getAllByFieldValue(subject, field, value)
     console.log('resultado do serachbyfield')
     console.log(data)
