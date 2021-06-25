@@ -4,13 +4,10 @@ import { SelectBox } from '../../components/select'
 import { ApiContext } from '../../contexts/ApiContext'
 import { ProductsDataTable } from './ProductsDataTable'
 
-interface ProductsProp {
-  data: any[]
-}
-export const ProductsData: React.FC<ProductsProp> = ({ data }) => {
+export const ProductsData: React.FC = () => {
   const [field, setField] = useState('')
   const [fields, setFields] = useState([] as any[])
-  const { getAllDataFrom } = useContext(ApiContext)
+  const { data, getAllDataFrom } = useContext(ApiContext)
 
   useEffect(() => {
     getAllDataFrom('product')

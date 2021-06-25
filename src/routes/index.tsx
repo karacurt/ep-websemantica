@@ -5,13 +5,11 @@ import { Home } from '../pages/home'
 import { UsersData } from '../pages/users'
 import { ProductForm } from '../pages/products/newProduct'
 import { StoreForm } from '../pages/store/newStore'
-import { StoreData } from '../pages/store/table'
+import { StoreData } from '../pages/store'
 import { ProductsData } from '../pages/products'
 import { Cart } from '../pages/cart'
-import { ApiContext } from '../contexts/ApiContext'
 
 export const Routes: React.FC = () => {
-  const { data } = useContext(ApiContext)
   return (
     <BrowserRouter>
       <Switch>
@@ -37,7 +35,7 @@ export const Routes: React.FC = () => {
           <Cart />
         </Route>
         <Route exact path='/products'>
-          <ProductsData data={data} />
+          <ProductsData />
         </Route>
       </Switch>
     </BrowserRouter>
