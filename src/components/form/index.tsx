@@ -11,9 +11,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import { ControlPointSharp } from '@material-ui/icons'
+import { ArrowBack, ControlPointSharp } from '@material-ui/icons'
 import { create } from '../../services/api'
 import { v4 as uuidv4 } from 'uuid'
+import { useHistory } from 'react-router'
 
 function Copyright() {
   return (
@@ -65,8 +66,8 @@ export const Form: React.FC<Props> = ({ subject, fields }) => {
 
   const onSubmit = (e: any) => {
     e.preventDefault()
-
     create(subject, fieldsValue)
+    document.location.href = 'http://localhost:3000/'
   }
 
   return (

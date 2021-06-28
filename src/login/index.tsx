@@ -13,6 +13,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import { ApiContext } from '../contexts/ApiContext'
+import { Redirect } from 'react-router-dom'
 
 function Copyright() {
   return (
@@ -61,7 +62,7 @@ export const LoginPage: React.FC = () => {
   const classes = useStyles()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { createSession } = useContext(ApiContext)
+  const { createSession, isLogged } = useContext(ApiContext)
 
   const signIn = () => {
     createSession(email, password)
