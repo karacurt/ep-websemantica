@@ -107,6 +107,37 @@ export async function getAll(subject: string) {
 
   return allData
 }
+export async function authenticate(email: string, password: string) {
+  const query = encodeURIComponent(` 
+  PREFIX ep: <${PREFIX}>
+  PREFIX info: <${PREFIX}user#>
+
+  SELECT  ?subject ?predicate ?object  WHERE { 
+    ?subject a ep:user .
+    ?subject info:email ?email . 
+    ?subject info:password ?password .
+    ?subject ?predicate ?object
+   filter(str(?email)="${email}")
+   filter(str(?password)="${password}")
+  }   `)
+
+  const response = await api.get(`/repositories/${BD_NAME}?query=${query}`)
+
+  const bindings = response.data.results.bindings
+
+  if (!bindings.length) return null
+
+  let data: any = {}
+  bindings.forEach((bind: any, index: number) => {
+    if (!data['id']) data['id'] = bind.subject.value.split('/').pop()
+    const fieldName: any = bind.predicate.value.split('#').pop()
+    if (fieldName === 'type') return
+    const value = bind.object.value
+    data[fieldName] = value
+  })
+
+  return data
+}
 export async function getAllByFieldValue(subject: string, field: string, value: string) {
   const query = encodeURIComponent(` 
     PREFIX ep: <${PREFIX}>

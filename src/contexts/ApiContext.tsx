@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react'
-import { create, getAll, getAllByFieldValue, PREFIX } from '../services/api'
+import { authenticate, create, getAll, getAllByFieldValue, PREFIX } from '../services/api'
 import { v4 as uuidv4 } from 'uuid'
 import { Product, User } from '../types'
 
@@ -15,6 +15,7 @@ interface UserContextProps {
   addProductToCart: (id: string) => void
   getAllDataFrom: (subject: string) => void
   searchByFieldValue: (subject: string, field: string, value: string) => void
+  createSession: (username: string, password: string) => void
 }
 export const ApiContext = createContext<UserContextProps>({} as UserContextProps)
 
@@ -24,6 +25,16 @@ export const ApiProvider: React.FC = ({ children }) => {
   const [cart, setCart] = useState([] as any[])
   const [user, setUser] = useState({} as User)
 
+  const createSession = async (email: string, password: string) => {
+    const userData: User = await authenticate(email, password)
+    console.log('userData--->')
+    console.log(userData)
+
+    if (!userData) return false
+
+    setUser(userData)
+    return true
+  }
   const clearCart = () => {
     setCart([])
   }
@@ -76,5 +87,5 @@ export const ApiProvider: React.FC = ({ children }) => {
     return response
   }
 
-  return <ApiContext.Provider value={{ data, user, getAllDataFrom, getData, removeItemFromCart, searchByFieldValue, addProductToCart, buyCart, clearCart, cart, loading }}>{children}</ApiContext.Provider>
+  return <ApiContext.Provider value={{ data, user, getAllDataFrom, createSession, getData, removeItemFromCart, searchByFieldValue, addProductToCart, buyCart, clearCart, cart, loading }}>{children}</ApiContext.Provider>
 }
