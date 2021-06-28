@@ -7,7 +7,7 @@ export const UsersData: React.FC = () => {
   const { data, getAllDataFrom } = useContext(ApiContext)
 
   useEffect(() => {
-    getAllDataFrom('users')
+    getAllDataFrom('user')
   }, [])
 
   return (

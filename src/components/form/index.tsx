@@ -83,7 +83,7 @@ export const Form: React.FC<Props> = ({ subject, fields }) => {
           <Grid container spacing={2}>
             {fields?.map((field) => {
               if (field === 'id') {
-                return <TextField name={field} variant='outlined' required fullWidth value={generatedId} id={field} label={field} autoFocus onChange={(e) => setFieldValue(field, e.target.value)} />
+                return
               }
               return (
                 <Grid item xs={12}>
