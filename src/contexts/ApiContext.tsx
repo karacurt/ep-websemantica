@@ -29,17 +29,17 @@ export const ApiProvider: React.FC = ({ children }) => {
 
   const createSession = async (email: string, password: string) => {
     const userData: User = await authenticate(email, password)
-    console.log('userData--->')
-    console.log(userData)
 
     if (!userData) {
       setIsLogged(false)
       alert('usuario ou senha inválidos')
       return
     }
-    setUser(userData)
+    setUser(userData as User)
+
     setIsLogged(true)
-    document.location.href = 'http://localhost:3000/'
+    alert('logado!')
+    //document.location.href = 'http://localhost:3000/'
   }
   const clearCart = () => {
     setCart([])
@@ -53,8 +53,9 @@ export const ApiProvider: React.FC = ({ children }) => {
   const buyCart = () => {
     console.log('olha o cart buying')
     console.log(cart)
+    console.log(user)
+    if (!user.id) return alert('é preciso estar logado para poder comprar o produto')
 
-    if (!user.id) return alert('é preciso logar para poder comprar o produto')
     const cartId = uuidv4()
 
     cart.map((product) => {
