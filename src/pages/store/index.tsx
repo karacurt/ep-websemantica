@@ -8,6 +8,7 @@ export const StoreData: React.FC = () => {
   const [field, setField] = useState('')
   const [fields, setFields] = useState([] as any[])
   const { data, getAllDataFrom } = useContext(ApiContext)
+  const [stores, setStores] = useState([] as any[])
 
   useEffect(() => {
     getAllDataFrom('store')
@@ -18,6 +19,7 @@ export const StoreData: React.FC = () => {
     if (data.length) {
       setFields(Object.keys(data[0]))
     }
+    setStores(data)
     console.log(fields)
   }, [data])
 
@@ -29,7 +31,7 @@ export const StoreData: React.FC = () => {
     <>
       <SelectBox handleChange={handleChange} fields={fields} field={field} />
       <SearchField subject='store' field={field} />
-      <DataTable data={data} />
+      <DataTable data={stores} />
     </>
   )
 }

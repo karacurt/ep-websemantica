@@ -73,6 +73,17 @@ export async function getById(subject: string, id: string) {
   return data
 }
 
+async function getDataFromEachId(subject: string, ids: string[]) {
+  const allData: any[] = []
+  for (const id of ids) {
+    const data = await getById(subject, id)
+    if (!data) return
+
+    allData.push(data)
+  }
+
+  return allData
+}
 export async function getAll(subject: string) {
   const query = encodeURIComponent(` 
   PREFIX ep: <${PREFIX}>
@@ -92,13 +103,7 @@ export async function getAll(subject: string) {
   })
 
   console.log(ids)
-  const allData: any = []
-  ids.forEach(async (id: string) => {
-    const data = await getById(subject, id)
-    if (!data) return
-
-    allData.push(data)
-  })
+  const allData: any = await getDataFromEachId(subject, ids)
 
   return allData
 }
@@ -127,13 +132,7 @@ export async function getAllByFieldValue(subject: string, field: string, value: 
   })
 
   console.log(ids)
-  const allData: any = []
-  ids.forEach(async (id: string) => {
-    const data = await getById(subject, id)
-    if (!data) return
-
-    allData.push(data)
-  })
+  const allData: any = await getDataFromEachId(subject, ids)
 
   return allData
 }

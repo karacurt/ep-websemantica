@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { BrowserRouter, Switch, Route, Router } from 'react-router-dom'
+import React from 'react'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { SignUp } from '../pages/signup/signup'
 import { Home } from '../pages/home'
 import { UsersData } from '../pages/users'
@@ -34,9 +34,7 @@ export const Routes: React.FC = () => {
         <Route exact path='/cart'>
           <Cart />
         </Route>
-        <Route exact path='/products'>
-          <ProductsData />
-        </Route>
+        <Route exact path='/products' component={ProductsData} />
       </Switch>
     </BrowserRouter>
   )

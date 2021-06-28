@@ -17,11 +17,9 @@ import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
-import DeleteIcon from '@material-ui/icons/Delete'
 import FilterListIcon from '@material-ui/icons/FilterList'
 import { ApiContext } from '../../contexts/ApiContext'
-import { Payment, ShoppingCart } from '@material-ui/icons'
-import { Link } from 'react-router-dom'
+import { ShoppingCart } from '@material-ui/icons'
 
 interface Data {
   calories: number
@@ -50,7 +48,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property)
   }
-
   return (
     <TableHead>
       <TableRow>
@@ -101,12 +98,8 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const classes = useToolbarStyles()
   const { numSelected, selected } = props
   const { addProductToCart, cart } = useContext(ApiContext)
-  console.log('cart')
-  console.log(cart)
-  const addToCart = () => {
-    console.log('chamado add to cart')
-    console.log(selected)
 
+  const addToCart = () => {
     selected.forEach((product) => {
       addProductToCart(product)
     })
@@ -171,40 +164,35 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 interface Props {
-  data: any[]
+  products: any[]
 }
-export const ProductsDataTable: React.FC<Props> = ({ data }) => {
+export const ProductsDataTable: React.FC<Props> = ({ products }) => {
   const classes = useStyles()
-  const [order, setOrder] = React.useState<Order>('asc')
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('calories')
-  const [selected, setSelected] = React.useState<any[]>([])
-  const [page, setPage] = React.useState(0)
-  const [dense, setDense] = React.useState(false)
+  const [order, setOrder] = useState<Order>('asc')
+  const [orderBy, setOrderBy] = useState<keyof Data>('calories')
+  const [selected, setSelected] = useState<any[]>([])
+  const [page, setPage] = useState(0)
+  const [dense, setDense] = useState(false)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
-
-  const [rows, setRows] = useState(data)
+  const [rows, setRows] = useState<any[]>([])
 
   useEffect(() => {
-    setRows(data)
-  }, [data])
+    setRows(products)
+    console.log('rows')
+    console.log(rows)
+  }, [products])
 
-  const headCells: any[] = data.length
-    ? Object.keys(data[0]).map((key) => {
+  const headCells: any[] = products.length
+    ? Object.keys(products[0]).map((key) => {
         const column = { id: key, numeric: false, disablePadding: false, label: key }
 
         return column
       })
     : []
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
-    const isAsc = orderBy === property && order === 'asc'
-    setOrder(isAsc ? 'desc' : 'asc')
-    setOrderBy(property)
-  }
-
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = data //data.map((n) => n.id)
+      const newSelecteds = rows.map((n) => n.id)
       setSelected(newSelecteds)
       return
     }
@@ -214,9 +202,7 @@ export const ProductsDataTable: React.FC<Props> = ({ data }) => {
   const handleClick = (event: React.MouseEvent<unknown>, product: string) => {
     const selectedIndex = selected.indexOf(product)
     let newSelected: string[] = []
-    console.log('handling selected')
-    console.log(selected)
-    console.log(product)
+
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, product)
     } else if (selectedIndex === 0) {
@@ -229,7 +215,11 @@ export const ProductsDataTable: React.FC<Props> = ({ data }) => {
 
     setSelected(newSelected)
   }
-
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
+    const isAsc = orderBy === property && order === 'asc'
+    setOrder(isAsc ? 'desc' : 'asc')
+    setOrderBy(property)
+  }
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage)
   }
@@ -245,17 +235,17 @@ export const ProductsDataTable: React.FC<Props> = ({ data }) => {
 
   const isSelected = (name: string) => selected.indexOf(name) !== -1
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
-
   return (
-    <div className={classes.root}>
+    <>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar numSelected={selected.length} selected={selected} />
+
         <TableContainer>
           <Table className={classes.table} aria-labelledby='tableTitle' size={dense ? 'small' : 'medium'} aria-label='enhanced table'>
             <EnhancedTableHead headCells={headCells} classes={classes} numSelected={selected.length} order={order} orderBy={orderBy} onSelectAllClick={handleSelectAllClick} onRequestSort={handleRequestSort} rowCount={rows.length} />
+
             <TableBody>
-              {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+              {rows.map((row, index) => {
                 const isItemSelected = isSelected(row)
                 const labelId = `enhanced-table-checkbox-${index}`
 
@@ -278,17 +268,13 @@ export const ProductsDataTable: React.FC<Props> = ({ data }) => {
                   </TableRow>
                 )
               })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
             </TableBody>
           </Table>
         </TableContainer>
+
         <TablePagination rowsPerPageOptions={[5, 10, 25]} component='div' count={rows.length} rowsPerPage={rowsPerPage} page={page} onChangePage={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage} />
       </Paper>
       <FormControlLabel control={<Switch checked={dense} onChange={handleChangeDense} />} label='Dense padding' />
-    </div>
+    </>
   )
 }

@@ -1,10 +1,9 @@
 import { Button } from '@material-ui/core'
-import React, { useContext } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import { ApiContext } from '../../contexts/ApiContext'
 
 export const Home: React.FC = () => {
-  const paths = ['cart', 'users', 'products', 'stores', 'new/product', 'new/store', 'new/user']
+  const paths = ['login', 'cart', 'users', 'products', 'stores', 'new/product', 'new/store', 'new/user']
 
   return (
     <>
