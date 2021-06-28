@@ -13,9 +13,9 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import { createSecureServer } from 'node:http2'
-import { createUser } from '../../services/user'
 import { User } from '../../types'
 import { v4 as uuidv4 } from 'uuid'
+import { create } from '../../services/api'
 function Copyright() {
   return (
     <Typography variant='body2' color='textSecondary' align='center'>
@@ -64,8 +64,8 @@ export const SignUp: React.FC = () => {
       email,
       password
     }
-    console.log(user)
-    createUser(user)
+
+    create('user', user)
     window.open('http://localhost:3000/users')
   }
 
