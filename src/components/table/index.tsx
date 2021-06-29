@@ -80,7 +80,13 @@ export const DataTable: React.FC<Props> = ({ data }) => {
                   {columns.map((column) => {
                     const value = row[column.id]
                     return (
-                      <TableCell key={column.id} align='center'>
+                      <TableCell
+                        key={column.id}
+                        align='center'
+                        onClick={() => {
+                          return column.id === 'link' ? window.open(value) : null
+                        }}
+                      >
                         {value}
                       </TableCell>
                     )
