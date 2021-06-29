@@ -47,18 +47,17 @@ export const ApiProvider: React.FC = ({ children }) => {
     setCart([])
   }
   const removeItemFromCart = (productProp: any) => {
-    console.log('removing item')
-    console.log(cart)
     setCart(cart.filter((product) => product !== productProp))
+    console.log('removing item--->')
     console.log(cart)
   }
   const buyCart = () => {
-    console.log('olha o cart buying')
-    console.log(cart)
-    console.log(user)
     if (!user.id) return alert('é preciso estar logado para poder comprar o produto')
 
     const cartId = uuidv4()
+
+    console.log('buying cart-->')
+    console.log(cart)
 
     cart.map((product) => {
       create('cart', {
@@ -71,7 +70,7 @@ export const ApiProvider: React.FC = ({ children }) => {
   const addProductToCart = (id: string) => {
     if (cart.includes(id)) return
     cart.push(id)
-    console.log('carrinho -->')
+    console.log('adding product to cart -->')
     console.log(cart)
   }
   const getData = () => {
@@ -80,18 +79,23 @@ export const ApiProvider: React.FC = ({ children }) => {
   const getAllDataFrom = async (subject: string) => {
     setLoading(true)
     const response = await getAll(subject)
+
+    console.log(`get all data from ${subject}`)
     console.log(response)
+
     setData(response)
     setLoading(false)
-    return data
   }
   const searchByFieldValue = async (subject: string, field: string, value: string) => {
-    console.log('query de pesquisa -->')
-    console.log(value)
-    if (!value.length) getAllDataFrom(subject)
+    if (!value.length || !field.length) {
+      getAllDataFrom(subject)
+      return
+    }
     const response = await getAllByFieldValue(subject, field, value)
-    console.log('resultado do serachbyfield')
+
+    console.log('query result serachbyfield--->')
     console.log(response)
+
     setData(response)
     return response
   }

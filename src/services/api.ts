@@ -8,7 +8,10 @@ export const PREFIX = 'http://epwebsemantica.com/'
 const ep = rdf.ns(`${PREFIX}`)
 const rdfjs = rdf.factory
 export async function create(subject: string, properties: any) {
-  console.log('properties')
+  console.log('creating...')
+  console.log('subject--->')
+  console.log(properties)
+  console.log('properties--->')
   console.log(properties)
 
   const data = rdf.parse({
@@ -20,7 +23,6 @@ export async function create(subject: string, properties: any) {
     type: ep(`${subject}`)
   })
 
-  console.log(data)
   let dataProperties: any = {
     '@context': {
       '@vocab': `http://epwebsemantica.com/${subject}#`,
@@ -30,7 +32,6 @@ export async function create(subject: string, properties: any) {
   }
 
   Object.keys(properties).map((key) => {
-    console.log(key)
     dataProperties[key] = properties[key].includes('http://') ? properties[key] : rdfjs.literal(properties[key], rdf.xsdns('string'))
   })
 

@@ -178,8 +178,6 @@ export const ProductsDataTable: React.FC<Props> = ({ products }) => {
 
   useEffect(() => {
     setRows(products)
-    console.log('rows')
-    console.log(rows)
   }, [products])
 
   const headCells: any[] = products.length

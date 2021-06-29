@@ -11,8 +11,6 @@ export const Home: React.FC = () => {
     getAllSchemas()
   }, [])
 
-  console.log('user->>')
-  console.log(user)
   return (
     <>
       {paths.map((path) => {

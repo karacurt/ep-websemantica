@@ -61,7 +61,6 @@ export const Form: React.FC<Props> = ({ subject, fields }) => {
 
   const setFieldValue = (field: string, value: any) => {
     fieldsValue[field] = value
-    console.log(fieldsValue)
   }
 
   const onSubmit = (e: any) => {

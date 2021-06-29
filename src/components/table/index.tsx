@@ -65,7 +65,6 @@ export const DataTable: React.FC<Props> = ({ data }) => {
           <TableHead>
             <TableRow>
               {columns.map((column) => {
-                console.log('columns render')
                 return (
                   <TableCell key={column.id} align='center' style={{ minWidth: column.minWidth }}>
                     {column.label}

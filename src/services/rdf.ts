@@ -15,8 +15,7 @@ export function graphToTurtle(graphs: any[]) {
       .map(function (stmt: { toTurtle: (arg0: any) => any }) {
         return stmt.toTurtle(profile)
       })
-    console.log('turtlepassed')
-    console.log(turtleParsed)
+
     turtle = turtle.concat(turtleParsed)
   })
 
