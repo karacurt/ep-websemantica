@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Form } from '../../components/form'
+import { ApiContext } from '../../contexts/ApiContext'
 export const ProductForm: React.FC = () => {
-  const fields = ['id', 'name', 'price', 'category', 'quantity', 'store']
+  const { schemas } = useContext(ApiContext)
+  const fields = ['id', ...schemas['product']]
   return <Form subject='product' fields={fields} />
 }

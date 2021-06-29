@@ -167,3 +167,57 @@ export async function getAllByFieldValue(subject: string, field: string, value: 
 
   return allData
 }
+
+export async function getSchemaFrom(subject: string) {
+  const query = encodeURIComponent(`
+  PREFIX ep: <${PREFIX}>
+  PREFIX owl: <http://www.w3.org/2002/07/owl#>
+  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+  
+  SELECT  ?subject ?property  WHERE { 
+    ?subject a owl:Class .
+    ?property a owl:DatatypeProperty .
+    ?property rdfs:domain ?subject .
+    FILTER(?subject = ep:${subject})
+  }  `)
+
+  const response = await api.get(`/repositories/${BD_NAME}?query=${query}`)
+
+  const bindings = response.data.results.bindings
+  const properties: any[] = []
+  bindings.forEach((bind: any) => {
+    const property = bind.property.value.split('#').pop()
+    properties.push(property)
+  })
+
+  console.log('properties-->')
+  console.log(properties)
+
+  return properties
+}
+
+export async function getAllSchemas() {
+  const query = encodeURIComponent(`
+  PREFIX ep: <${PREFIX}>
+  PREFIX owl: <http://www.w3.org/2002/07/owl#>
+  
+  SELECT  ?subject WHERE { 
+    ?subject a owl:Class .  
+  } `)
+
+  const response = await api.get(`/repositories/${BD_NAME}?query=${query}`)
+
+  const bindings = response.data.results.bindings
+  let schemas: any = {}
+
+  for (const bind of bindings) {
+    const subject = bind.subject.value.split('/').pop()
+    const schema = await getSchemaFrom(subject)
+    schemas[subject] = schema
+  }
+
+  console.log('schemas -->')
+  console.log(schemas)
+
+  return schemas
+}

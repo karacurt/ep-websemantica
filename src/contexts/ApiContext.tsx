@@ -1,9 +1,10 @@
-import React, { createContext, useState } from 'react'
-import { authenticate, create, getAll, getAllByFieldValue, PREFIX } from '../services/api'
+import React, { createContext, useEffect, useState } from 'react'
+import { authenticate, create, getAll, getAllByFieldValue, getAllSchemas, getSchemaFrom, PREFIX } from '../services/api'
 import { v4 as uuidv4 } from 'uuid'
 import { Product, User } from '../types'
 
 interface UserContextProps {
+  schemas: any
   user: User
   loading: boolean
   data: any[]
@@ -26,6 +27,7 @@ export const ApiProvider: React.FC = ({ children }) => {
   const [cart, setCart] = useState([] as any[])
   const [user, setUser] = useState({} as User)
   const [isLogged, setIsLogged] = useState(false)
+  const [schemas, setSchemas] = useState({} as any)
 
   const createSession = async (email: string, password: string) => {
     const userData: User = await authenticate(email, password)
@@ -93,6 +95,14 @@ export const ApiProvider: React.FC = ({ children }) => {
     setData(response)
     return response
   }
+  const generateSchemas = async () => {
+    const generatedSchemas = await getAllSchemas()
+    setSchemas(generatedSchemas)
+  }
 
-  return <ApiContext.Provider value={{ data, user, isLogged, getAllDataFrom, createSession, getData, removeItemFromCart, searchByFieldValue, addProductToCart, buyCart, clearCart, cart, loading }}>{children}</ApiContext.Provider>
+  useEffect(() => {
+    generateSchemas()
+  }, [])
+
+  return <ApiContext.Provider value={{ data, user, schemas, isLogged, getAllDataFrom, createSession, getData, removeItemFromCart, searchByFieldValue, addProductToCart, buyCart, clearCart, cart, loading }}>{children}</ApiContext.Provider>
 }

@@ -1,11 +1,15 @@
 import { Button } from '@material-ui/core'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ApiContext } from '../../contexts/ApiContext'
+import { getAllSchemas } from '../../services/api'
 
 export const Home: React.FC = () => {
   const paths = ['login', 'cart', 'users', 'products', 'stores', 'new/product', 'new/store', 'new/user']
   const { user } = useContext(ApiContext)
+  useEffect(() => {
+    getAllSchemas()
+  }, [])
 
   console.log('user->>')
   console.log(user)
