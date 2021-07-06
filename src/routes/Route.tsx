@@ -13,7 +13,6 @@ export const RouteWrapper: React.FC<Props> = ({ path, component, isPublic = fals
   const { isLogged } = useContext(ApiContext)
 
   if (!isPublic && !isLogged) {
-    console.log(path)
     return <LoginPage />
   }
 

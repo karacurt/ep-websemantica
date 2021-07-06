@@ -66,7 +66,7 @@ export const SignUp: React.FC = () => {
     }
 
     create('user', user)
-    document.location.href = 'http://localhost:3000/'
+    document.location.href = 'http://localhost:3000/login'
   }
 
   return (

@@ -12,8 +12,10 @@ import { LoginPage } from '../login'
 import { RouteWrapper } from './Route'
 import { ApiContext } from '../contexts/ApiContext'
 import Header from '../components/header/index'
+import { Logout } from '../pages/logout'
 export const Routes: React.FC = () => {
   const { isLogged } = useContext(ApiContext)
+  console.log(isLogged)
   return (
     <BrowserRouter>
       <Switch>
@@ -26,12 +28,13 @@ export const Routes: React.FC = () => {
           <>
             <Header />
             <RouteWrapper path='/' component={Home} />
+            <RouteWrapper path='/logout' component={Logout} />
             <RouteWrapper path='/new/product' component={ProductForm} />
             <RouteWrapper path='/new/store' component={StoreForm} />
             <RouteWrapper path='/stores' component={StoreData} />
             <RouteWrapper path='/users' component={UsersData} />
             <RouteWrapper path='/cart' component={Cart} />
-            <RouteWrapper path='/products' component={ProductsData} />{' '}
+            <RouteWrapper path='/products' component={ProductsData} />
           </>
         )}
       </Switch>

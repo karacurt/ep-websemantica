@@ -18,6 +18,7 @@ interface UserContextProps {
   getAllDataFrom: (subject: string) => void
   searchByFieldValue: (subject: string, field: string, value: string) => void
   createSession: (email: string, password: string) => void
+  destroySession: () => void
 }
 export const ApiContext = createContext<UserContextProps>({} as UserContextProps)
 
@@ -46,6 +47,13 @@ export const ApiProvider: React.FC = ({ children }) => {
 
     setIsLogged(true)
     alert('logado!')
+  }
+  const destroySession = () => {
+    localStorage.removeItem('userId')
+    localStorage.removeItem('userEmail')
+    localStorage.removeItem('userName')
+    localStorage.removeItem('expiresAt')
+    setIsLogged(false)
   }
   const clearCart = () => {
     setCart([])
@@ -112,28 +120,22 @@ export const ApiProvider: React.FC = ({ children }) => {
     generateSchemas()
 
     const expiresAt = localStorage.getItem('expiresAt')
-
-    if (expiresAt && Number(expiresAt) > Date.now()) {
-      localStorage.remove('userId')
-      localStorage.remove('userEmail')
-      localStorage.remove('userName')
-      localStorage.remove('expiresAt')
-      setIsLogged(false)
+    console.log(expiresAt)
+    console.log('destroySession')
+    if (!expiresAt || Number(expiresAt) > Date.now()) {
+      console.log('destroySession')
+      destroySession()
     } else {
-      console.log(Date.now() + 100)
-      console.log(expiresAt)
-      console.log(Number(expiresAt) > Date.now())
       const userData = {
         id: localStorage.getItem('userId'),
         name: localStorage.getItem('userName'),
         email: localStorage.getItem('userEmail')
       } as User
-      console.log('userdata --->')
-      console.log(userData)
+
       setUser(userData)
       setIsLogged(true)
     }
   }, [])
 
-  return <ApiContext.Provider value={{ data, user, schemas, isLogged, getAllDataFrom, createSession, getData, removeItemFromCart, searchByFieldValue, addProductToCart, buyCart, clearCart, cart, loading }}>{children}</ApiContext.Provider>
+  return <ApiContext.Provider value={{ data, user, schemas, isLogged, getAllDataFrom, createSession, destroySession, getData, removeItemFromCart, searchByFieldValue, addProductToCart, buyCart, clearCart, cart, loading }}>{children}</ApiContext.Provider>
 }
