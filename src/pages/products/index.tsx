@@ -7,7 +7,12 @@ import { ProductsDataTable } from './ProductsDataTable'
 
 export const ProductsData: React.FC = () => {
   const [field, setField] = useState('')
+  const [fields, setFields] = useState([])
   const { data, schemas, getAllDataFrom } = useContext(ApiContext)
+
+  useEffect(() => {
+    if (schemas['product']) setFields(schemas['product'])
+  }, [schemas])
 
   useEffect(() => {
     getAllDataFrom('product')
@@ -18,7 +23,7 @@ export const ProductsData: React.FC = () => {
   }
   return (
     <>
-      <SelectBox handleChange={handleChange} fields={schemas['product']} field={field} />
+      <SelectBox handleChange={handleChange} fields={fields} field={field} />
       <SearchField subject='product' field={field} />
       <ProductsDataTable products={data} />
     </>

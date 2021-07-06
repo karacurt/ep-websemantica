@@ -98,10 +98,10 @@ export async function getAll(subject: string) {
 
   if (!bindings.length) return ids
 
-  bindings.forEach(async (result: any) => {
+  for (const result of bindings) {
     const id = result.data.value.split('/').pop()
     ids.push(id)
-  })
+  }
 
   console.log(ids)
   const allData: any = await getDataFromEachId(subject, ids)
@@ -186,10 +186,11 @@ export async function getSchemaFrom(subject: string) {
 
   const bindings = response.data.results.bindings
   const properties: any[] = []
-  bindings.forEach((bind: any) => {
+
+  for (const bind of bindings) {
     const property = bind.property.value.split('#').pop()
     properties.push(property)
-  })
+  }
 
   console.log('properties-->')
   console.log(properties)

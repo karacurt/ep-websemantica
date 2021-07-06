@@ -13,10 +13,10 @@ export const Home: React.FC = () => {
 
   return (
     <>
+      <Header />
       {paths.map((path) => {
         return (
           <>
-            <Header />
             <Link to={`/${path}`}>
               <Button variant='contained' color='primary' href='#contained-buttons'>
                 {path}

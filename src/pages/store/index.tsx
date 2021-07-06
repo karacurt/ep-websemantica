@@ -6,11 +6,16 @@ import { ApiContext } from '../../contexts/ApiContext'
 
 export const StoreData: React.FC = () => {
   const [field, setField] = useState('')
+  const [fields, setFields] = useState([])
   const { data, schemas, getAllDataFrom } = useContext(ApiContext)
 
   useEffect(() => {
     getAllDataFrom('store')
   }, [])
+
+  useEffect(() => {
+    if (schemas['store']) setFields(schemas['store'])
+  }, [schemas])
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setField(event.target.value as string)
@@ -18,7 +23,7 @@ export const StoreData: React.FC = () => {
 
   return (
     <>
-      <SelectBox handleChange={handleChange} fields={schemas['store']} field={field} />
+      <SelectBox handleChange={handleChange} fields={fields} field={field} />
       <SearchField subject='store' field={field} />
       <DataTable data={data} />
     </>

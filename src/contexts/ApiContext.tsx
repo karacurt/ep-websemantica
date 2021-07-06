@@ -37,11 +37,15 @@ export const ApiProvider: React.FC = ({ children }) => {
       alert('usuario ou senha inválidos')
       return
     }
+    localStorage.setItem('userId', userData.id)
+    localStorage.setItem('userEmail', userData.email)
+    localStorage.setItem('userName', userData.name)
+    localStorage.setItem('expiresAt', String(Date.now() + 100))
+
     setUser(userData as User)
 
     setIsLogged(true)
     alert('logado!')
-    //document.location.href = 'http://localhost:3000/'
   }
   const clearCart = () => {
     setCart([])
@@ -106,6 +110,29 @@ export const ApiProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     generateSchemas()
+
+    const expiresAt = localStorage.getItem('expiresAt')
+
+    if (expiresAt && Number(expiresAt) > Date.now()) {
+      localStorage.remove('userId')
+      localStorage.remove('userEmail')
+      localStorage.remove('userName')
+      localStorage.remove('expiresAt')
+      setIsLogged(false)
+    } else {
+      console.log(Date.now() + 100)
+      console.log(expiresAt)
+      console.log(Number(expiresAt) > Date.now())
+      const userData = {
+        id: localStorage.getItem('userId'),
+        name: localStorage.getItem('userName'),
+        email: localStorage.getItem('userEmail')
+      } as User
+      console.log('userdata --->')
+      console.log(userData)
+      setUser(userData)
+      setIsLogged(true)
+    }
   }, [])
 
   return <ApiContext.Provider value={{ data, user, schemas, isLogged, getAllDataFrom, createSession, getData, removeItemFromCart, searchByFieldValue, addProductToCart, buyCart, clearCart, cart, loading }}>{children}</ApiContext.Provider>
