@@ -30,7 +30,7 @@ export const StoreData: React.FC = () => {
       <SearchField subject='store' field={field} />
       <DataTable data={data} />
       <IconButton aria-label='add'>
-        <Link to='new/product'>
+        <Link to='new/store'>
           Adicionar novo <AddCircle />
         </Link>
       </IconButton>

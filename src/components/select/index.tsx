@@ -28,7 +28,7 @@ export const SelectBox: React.FC<SelectProps> = ({ field, fields, handleChange }
 
   return (
     <FormControl className={classes.formControl}>
-      <InputLabel id='demo-simple-select-label'>Selecione o campo para pesquisa</InputLabel>
+      <InputLabel id='demo-simple-select-label'>Selecione o campo</InputLabel>
       <Select labelId='demo-simple-select-label' id='demo-simple-select' value={field} onChange={handleChange}>
         {fields.map((field) => (
           <MenuItem value={field} key={field}>

@@ -254,6 +254,7 @@ export const ProductsDataTable: React.FC<Props> = ({ products }) => {
                     </TableCell>
 
                     {Object.keys(row).map((key, index) => {
+                      if (index === row.length - 1) return
                       if (index === 0) {
                         return (
                           <TableCell component='th' id={labelId} scope='row' padding='none'>
@@ -261,7 +262,7 @@ export const ProductsDataTable: React.FC<Props> = ({ products }) => {
                           </TableCell>
                         )
                       }
-                      return <TableCell align='right'>{row[key]}</TableCell>
+                      return <TableCell align='left'>{row[key]}</TableCell>
                     })}
                   </TableRow>
                 )
