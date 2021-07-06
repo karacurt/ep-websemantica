@@ -97,7 +97,7 @@ interface EnhancedTableToolbarProps {
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const classes = useToolbarStyles()
   const { numSelected, selected } = props
-  const { addProductToCart, cart } = useContext(ApiContext)
+  const { addProductToCart } = useContext(ApiContext)
 
   const addToCart = () => {
     selected.forEach((product) => {
@@ -190,7 +190,7 @@ export const ProductsDataTable: React.FC<Props> = ({ products }) => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.id)
+      const newSelecteds = rows.map((n) => n)
       setSelected(newSelecteds)
       return
     }

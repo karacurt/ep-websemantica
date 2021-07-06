@@ -11,6 +11,7 @@ import { Cart } from '../pages/cart'
 import { LoginPage } from '../login'
 import { RouteWrapper } from './Route'
 import { ApiContext } from '../contexts/ApiContext'
+import Header from '../components/header/index'
 export const Routes: React.FC = () => {
   const { isLogged } = useContext(ApiContext)
   return (
@@ -23,7 +24,8 @@ export const Routes: React.FC = () => {
           </>
         ) : (
           <>
-            <Route path='/' component={Home} />
+            <Header />
+            <RouteWrapper path='/' component={Home} />
             <RouteWrapper path='/new/product' component={ProductForm} />
             <RouteWrapper path='/new/store' component={StoreForm} />
             <RouteWrapper path='/stores' component={StoreData} />

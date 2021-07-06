@@ -14,7 +14,7 @@ interface UserContextProps {
   clearCart: () => void
   getData: () => void
   removeItemFromCart: (product: Product) => void
-  addProductToCart: (id: string) => void
+  addProductToCart: (product: Product) => void
   getAllDataFrom: (subject: string) => void
   searchByFieldValue: (subject: string, field: string, value: string) => void
   createSession: (email: string, password: string) => void
@@ -71,11 +71,11 @@ export const ApiProvider: React.FC = ({ children }) => {
       })
     })
   }
-  const addProductToCart = (id: string) => {
-    if (cart.includes(id)) return
-    cart.push(id)
-    console.log('adding product to cart -->')
-    console.log(cart)
+  const addProductToCart = (product: Product) => {
+    for (const productAdded of cart) {
+      if (productAdded.id === product.id) return
+    }
+    cart.push(product)
   }
   const getData = () => {
     return data

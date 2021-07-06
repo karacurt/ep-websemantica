@@ -66,7 +66,8 @@ export const Form: React.FC<Props> = ({ subject, fields }) => {
   const onSubmit = (e: any) => {
     e.preventDefault()
     create(subject, fieldsValue)
-    document.location.href = 'http://localhost:3000/'
+
+    document.location.href = `http://localhost:3000/${subject}s`
   }
 
   return (
