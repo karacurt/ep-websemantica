@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -63,6 +63,11 @@ export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const { createSession, isLogged } = useContext(ApiContext)
+  useEffect(() => {
+    if (isLogged) {
+      window.location.href = 'localhost:3000/'
+    }
+  }, [isLogged])
 
   const signIn = () => {
     createSession(email, password)
@@ -88,13 +93,9 @@ export const LoginPage: React.FC = () => {
             Sign In
           </Button>
           <Grid container>
-            <Grid item xs>
-              <Link href='#' variant='body2'>
-                Forgot password?
-              </Link>
-            </Grid>
+            <Grid item xs></Grid>
             <Grid item>
-              <Link href='#' variant='body2'>
+              <Link href='/new/user' variant='body2'>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
