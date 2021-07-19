@@ -7,6 +7,6 @@ export const ProductForm: React.FC = () => {
     getAllDataFrom('store')
   }, [])
   const fields = ['id', ...schemas['product']]
-  const categories = ['roupas', 'eletronicos', 'calçados', 'brinquedos']
+  const categories = ['roupas', 'eletronicos', 'calçados', 'brinquedos', 'alimentos', 'bebidas', 'eletrodomestico']
   return <Form subject='product' fields={fields} categories={categories} stores={data} />
 }

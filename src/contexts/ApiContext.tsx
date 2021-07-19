@@ -46,7 +46,6 @@ export const ApiProvider: React.FC = ({ children }) => {
     setUser(userData as User)
 
     setIsLogged(true)
-    alert('logado!')
   }
   const destroySession = () => {
     localStorage.removeItem('userId')
@@ -75,7 +74,7 @@ export const ApiProvider: React.FC = ({ children }) => {
       create('cart', {
         id: cartId,
         itemBought: `${PREFIX}product/${product.id}`,
-        buyer: `${PREFIX}product/${user.id}`
+        buyer: `${PREFIX}user/${user.id}`
       })
     })
   }
