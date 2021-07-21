@@ -23,7 +23,7 @@ const ProductCard: React.FC<ProductProps> = ({ product, handleRemoveItem }) => {
       <div className='row btn-toolbar'>
         <div className='col-6 text-right'>
           <button className='btn btn-outline-primary' onClick={() => handleRemoveItem(product)}>
-            removeItemFromCart
+            remover
           </button>
         </div>
       </div>

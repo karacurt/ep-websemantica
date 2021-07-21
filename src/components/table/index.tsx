@@ -84,7 +84,7 @@ export const DataTable: React.FC<Props> = ({ data }) => {
                         key={column.id}
                         align='center'
                         onClick={() => {
-                          return column.id === 'link' ? window.open(value) : null
+                          return column.id === 'link' ? window.open(value) : column.id === 'address' ? window.open(`https://www.google.com/maps/place/${encodeURIComponent(value)}`) : null
                         }}
                       >
                         {value}
