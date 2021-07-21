@@ -230,7 +230,7 @@ export async function generateRecommendations(userId: string) {
   PREFIX prod: <http://epwebsemantica.com/product#>
   PREFIX user: <http://epwebsemantica.com/user/>
   PREFIX owl: <http://www.w3.org/2002/07/owl#>
-  SELECT ?object WHERE {     
+  SELECT DISTINCT ?object WHERE {     
       ?data a ep:cart .
       ?data cart:buyer user:${userId} .
       ?data cart:itemBought ?product .
