@@ -223,3 +223,41 @@ export async function getAllSchemas() {
 
   return schemas
 }
+export async function generateRecommendations(userId: string) {
+  const query = encodeURIComponent(`
+  PREFIX ep: <http://epwebsemantica.com/>
+  PREFIX cart: <http://epwebsemantica.com/cart#>
+  PREFIX prod: <http://epwebsemantica.com/product#>
+  PREFIX user: <http://epwebsemantica.com/user/>
+  PREFIX owl: <http://www.w3.org/2002/07/owl#>
+  SELECT ?object WHERE {     
+      ?data a ep:cart .
+      ?data cart:buyer user:${userId} .
+      ?data cart:itemBought ?product .
+      ?product prod:category ?object .
+    }  `)
+
+  const response = await api.get(`/repositories/${BD_NAME}?query=${query}`)
+
+  const bindings = response.data.results.bindings
+  let recommendedProducts: any[] = []
+
+  const categories = bindings.filter(function (elem: any, index: any, self: string | any[]) {
+    return index === self.indexOf(elem)
+  })
+
+  console.log('categories--->')
+  console.log(categories)
+  for (const bind of categories) {
+    const category = bind.object.value
+
+    const products = await getAllByFieldValue('product', 'category', category)
+    console.log('products get')
+    console.log(products)
+    recommendedProducts = recommendedProducts.concat(products)
+  }
+  console.log('Recommended products --->')
+  console.log(recommendedProducts)
+
+  return recommendedProducts
+}

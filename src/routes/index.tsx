@@ -13,6 +13,7 @@ import { RouteWrapper } from './Route'
 import { ApiContext } from '../contexts/ApiContext'
 import Header from '../components/header/index'
 import { Logout } from '../pages/logout'
+import { RecommendationsPage } from '../pages/recommendations'
 export const Routes: React.FC = () => {
   const { isLogged } = useContext(ApiContext)
   console.log(isLogged)
@@ -35,6 +36,7 @@ export const Routes: React.FC = () => {
             <RouteWrapper path='/users' component={UsersData} />
             <RouteWrapper path='/cart' component={Cart} />
             <RouteWrapper path='/products' component={ProductsData} />
+            <RouteWrapper path='/recommendations' component={RecommendationsPage} />
           </>
         )}
       </Switch>

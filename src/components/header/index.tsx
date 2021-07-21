@@ -25,6 +25,9 @@ export const MenuExampleInvertedSecondary: React.FC = () => {
         <Link to='/cart'>
           <Menu.Item name='cart' />
         </Link>
+        <Link to='/recommendations'>
+          <Menu.Item name='recomendações' />
+        </Link>
         {isLogged ? (
           <Link to='/logout'>
             <Menu.Item name='logout' />

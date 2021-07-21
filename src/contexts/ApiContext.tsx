@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react'
-import { authenticate, create, getAll, getAllByFieldValue, getAllSchemas, getSchemaFrom, PREFIX } from '../services/api'
+import { authenticate, create, generateRecommendations, getAll, getAllByFieldValue, getAllSchemas, getSchemaFrom, PREFIX } from '../services/api'
 import { v4 as uuidv4 } from 'uuid'
 import { Product, User } from '../types'
 
@@ -19,6 +19,7 @@ interface UserContextProps {
   searchByFieldValue: (subject: string, field: string, value: string) => void
   createSession: (email: string, password: string) => void
   destroySession: () => void
+  getRecommendations: () => void
 }
 export const ApiContext = createContext<UserContextProps>({} as UserContextProps)
 
@@ -136,5 +137,10 @@ export const ApiProvider: React.FC = ({ children }) => {
     }
   }, [])
 
-  return <ApiContext.Provider value={{ data, user, schemas, isLogged, getAllDataFrom, createSession, destroySession, getData, removeItemFromCart, searchByFieldValue, addProductToCart, buyCart, clearCart, cart, loading }}>{children}</ApiContext.Provider>
+  const getRecommendations = async () => {
+    const recommendations = await generateRecommendations(user.id)
+    setData(recommendations)
+  }
+
+  return <ApiContext.Provider value={{ data, user, schemas, isLogged, getAllDataFrom, createSession, destroySession, getRecommendations, getData, removeItemFromCart, searchByFieldValue, addProductToCart, buyCart, clearCart, cart, loading }}>{children}</ApiContext.Provider>
 }
