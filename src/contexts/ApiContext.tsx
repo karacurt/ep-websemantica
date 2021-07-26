@@ -78,6 +78,10 @@ export const ApiProvider: React.FC = ({ children }) => {
         buyer: `${PREFIX}user/${user.id}`
       })
     })
+
+    clearCart()
+
+    return alert('Compra efetuada com sucesso!')
   }
   const addProductToCart = (product: Product) => {
     for (const productAdded of cart) {
